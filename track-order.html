@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon_io/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
+    <link rel="stylesheet" href="track-order.css">
+    <title>KGLMart | Track Order</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="shop.html">KGLMart</a></div>
+        <div class="nav-actions">
+            <a href="profile.html" class="profile-link" aria-label="Customer profile"><img src="icons/user.png" alt="Profile"></a>
+            <a href="cart.html" class="back-link" data-tracking-cart-link hidden>Cart / orders</a>
+            <a href="shop.html" class="back-link">Continue shopping</a>
+        </div>
+    </nav>
+    <main class="tracking-page">
+        <section class="tracking-heading">
+            <p class="eyebrow">Delivery updates</p>
+            <h1>Track your order</h1>
+            <p>Follow the latest progress of your KGLMart order.</p>
+        </section>
+        <section class="tracking-card" data-tracking-card hidden>
+            <div class="tracking-card__header">
+                <div>
+                    <p class="muted">Order number</p>
+                    <h2 data-track-order-id></h2>
+                </div>
+                <span class="status-badge" data-track-status></span>
+            </div>
+            <p class="muted">Placed <span data-track-date></span></p>
+            <p class="tracking-notice">Your order stays in progress until the vendor marks it delivered.</p>
+            <div class="tracking-vendor-statuses" data-tracking-vendor-statuses hidden aria-label="Vendor delivery progress"></div>
+            <div class="tracking-items" data-track-items></div>
+            <div class="tracking-total"><span>Order total</span><strong data-track-total></strong></div>
+            <ol class="tracking-steps">
+                <li class="is-complete"><span></span><div><strong>Order received</strong><small>We have your order details.</small></div></li>
+                <li><span></span><div><strong>Preparing order</strong><small>Your items will be prepared for dispatch.</small></div></li>
+                <li><span></span><div><strong>Out for delivery</strong><small>Delivery updates will appear here.</small></div></li>
+                <li><span></span><div><strong>Delivered</strong><small>Your order arrives at the provided address.</small></div></li>
+            </ol>
+        </section>
+        <section class="no-order" data-no-order hidden>
+            <h2>No recent order found</h2>
+            <p>Place an order first and return here to see its progress.</p>
+            <a class="primary-link" href="shop.html">Browse products</a>
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

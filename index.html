@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon_io/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    <link rel="stylesheet" href="login.css">
+    <title>KGLMart | Login</title>
+</head>
+<body>
+    <div class="opening-reveal" aria-hidden="true">
+        <span class="opening-wordmark">KGL<span>Mart</span></span>
+    </div>
+    <main class="auth-layout">
+        <section class="auth-welcome" aria-label="Welcome to KGLMart">
+            <a class="auth-logo" href="index.html">KGLMart</a>
+            <div class="welcome-copy">
+                <p class="welcome-label">WELCOME TO KGLMART</p>
+                <h1>Good finds<br>for every day.</h1>
+                <p>Sign in or create an account to start shopping.</p>
+            </div>
+            <img class="welcome-image" src="images/KGLMart.jpg" alt="KGLMart products available for sale">
+            <p class="welcome-footer">EVERYDAY GOODS <span>KIGALI, RWANDA</span></p>
+        </section>
+
+        <section class="auth-content" aria-label="Account access">
+            <div class="auth-form-wrap">
+                <p class="form-kicker">YOUR ACCOUNT</p>
+                <div class="auth-tabs" role="tablist" aria-label="Choose an account action">
+                    <button class="auth-tab is-active" id="login-tab" type="button" role="tab" aria-selected="true" aria-controls="login-panel" data-auth-tab="login">Log in</button>
+                    <button class="auth-tab" id="signup-tab" type="button" role="tab" aria-selected="false" aria-controls="signup-panel" data-auth-tab="signup">Sign up</button>
+                </div>
+
+                <section id="login-panel" role="tabpanel" aria-labelledby="login-tab" data-auth-panel="login">
+                    <h2>Welcome back</h2>
+                    <p class="form-description">Enter your name and password to continue.</p>
+                    <form data-auth-form="login">
+                        <label for="login-name">Full name</label>
+                        <input id="login-name" name="name" type="text" autocomplete="username" placeholder="Your name" required>
+                        <label for="login-password">Password</label>
+                        <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+                        <button class="submit-button" type="submit">Log in <span aria-hidden="true">&rarr;</span></button>
+                    </form>
+                </section>
+
+                <section id="signup-panel" role="tabpanel" aria-labelledby="signup-tab" data-auth-panel="signup" hidden>
+                    <h2>Create your account</h2>
+                    <p class="form-description">Add your details to get started.</p>
+                    <form data-auth-form="signup">
+                        <label for="signup-name">Full name</label>
+                        <input id="signup-name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
+                        <label for="signup-phone">Rwandan phone number</label>
+                        <input id="signup-phone" name="phone" type="tel" autocomplete="tel" placeholder="0788 123 456 or +250 788 123 456" required>
+                        <label for="signup-location">Location or address</label>
+                        <input id="signup-location" name="location" type="text" autocomplete="street-address" placeholder="Street, area, or nearby landmark">
+                        <div class="map-tools">
+                            <span>Or choose your location on the map</span>
+                            <button class="map-location-button" type="button" data-use-location>Use my location</button>
+                        </div>
+                        <div id="signup-map" class="signup-map" role="application" aria-label="Choose your location on the map"></div>
+                        <p class="map-status" data-map-status aria-live="polite">Choose a point on the map or enter an address.</p>
+                        <label for="signup-password">Create password</label>
+                        <input id="signup-password" name="password" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" required>
+                        <button class="submit-button" type="submit">Create account <span aria-hidden="true">&rarr;</span></button>
+                    </form>
+                </section>
+                <p class="auth-message" data-auth-message role="status" aria-live="polite" hidden></p>
+                <p class="demo-note">Accounts are saved in this browser on this device. Passwords are stored as salted hashes.</p>
+                <a class="vendor-auth-link" href="Vendor/vendor-login.html?mode=signup" data-auth-transition>Are you a vendor? Sign in or create a vendor account.</a>
+            </div>
+            <footer class="auth-footer">&copy; 2026 KGLMart</footer>
+        </section>
+    </main>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        const authTabs = document.querySelectorAll("[data-auth-tab]");
+        const authPanels = document.querySelectorAll("[data-auth-panel]");
+        const mapStatus = document.querySelector("[data-map-status]");
+        let signupMap;
+        let locationMarker;
+        let selectedMapLocation = null;
+
+        function setMapLocation(latitude, longitude) {
+            selectedMapLocation = {
+                latitude: Number(latitude.toFixed(6)),
+                longitude: Number(longitude.toFixed(6))
+            };
+            const point = [latitude, longitude];
+            if (locationMarker) {
+                locationMarker.setLatLng(point);
+            } else {
+                locationMarker = L.marker(point).addTo(signupMap);
+            }
+            mapStatus.textContent = `Map pin selected: ${selectedMapLocation.latitude}, ${selectedMapLocation.longitude}`;
+        }
+
+        function initializeSignupMap() {
+            if (signupMap) {
+                signupMap.invalidateSize();
+                return;
+            }
+            signupMap = L.map("signup-map").setView([-1.9441, 30.0619], 12);
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                maxZoom: 19,
+                attribution: "&copy; OpenStreetMap contributors"
+            }).addTo(signupMap);
+            signupMap.on("click", (event) => {
+                setMapLocation(event.latlng.lat, event.latlng.lng);
+            });
+        }
+
+        authTabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                authTabs.forEach((item) => {
+                    const isActive = item === tab;
+                    item.classList.toggle("is-active", isActive);
+                    item.setAttribute("aria-selected", String(isActive));
+                });
+                authPanels.forEach((panel) => {
+                    panel.hidden = panel.dataset.authPanel !== tab.dataset.authTab;
+                });
+                if (tab.dataset.authTab === "signup") {
+                    initializeSignupMap();
+                }
+            });
+        });
+
+        if (new URLSearchParams(window.location.search).get("mode") === "signup") {
+            document.querySelector('[data-auth-tab="signup"]').click();
+        }
+
+        document.querySelector("[data-use-location]").addEventListener("click", () => {
+            if (!navigator.geolocation) {
+                mapStatus.textContent = "Location access is not available in this browser. Choose a point on the map instead.";
+                return;
+            }
+            mapStatus.textContent = "Finding your location...";
+            navigator.geolocation.getCurrentPosition((position) => {
+                initializeSignupMap();
+                const { latitude, longitude } = position.coords;
+                signupMap.setView([latitude, longitude], 16);
+                setMapLocation(latitude, longitude);
+            }, () => {
+                mapStatus.textContent = "Could not access your location. Choose a point on the map instead.";
+            }, { enableHighAccuracy: true, timeout: 10000 });
+        });
+
+        const ACCOUNT_STORAGE_KEY = "docraw-customer-accounts";
+        const PBKDF2_ITERATIONS = 210000;
+        const authMessage = document.querySelector("[data-auth-message]");
+
+        function showAuthMessage(message, isError = false) {
+            authMessage.textContent = message;
+            authMessage.classList.toggle("is-error", isError);
+            authMessage.hidden = false;
+        }
+
+        function normalizeName(name) {
+            return name.trim().replace(/\s+/g, " ").toLocaleLowerCase();
+        }
+
+        function normalizeRwandanPhone(phone) {
+            let digits = phone.replace(/\D/g, "");
+            if (digits.startsWith("250")) digits = digits.slice(3);
+            if (digits.startsWith("0")) digits = digits.slice(1);
+            return /^7[2-9]\d{7}$/.test(digits) ? `+250${digits}` : null;
+        }
+
+        function encodeBase64(bytes) {
+            return btoa(String.fromCharCode(...bytes));
+        }
+
+        function decodeBase64(value) {
+            return Uint8Array.from(atob(value), (character) => character.charCodeAt(0));
+        }
+
+        async function hashPassword(password, salt) {
+            const keyMaterial = await crypto.subtle.importKey(
+                "raw",
+                new TextEncoder().encode(password),
+                "PBKDF2",
+                false,
+                ["deriveBits"]
+            );
+            const bits = await crypto.subtle.deriveBits({
+                name: "PBKDF2",
+                salt,
+                iterations: PBKDF2_ITERATIONS,
+                hash: "SHA-256"
+            }, keyMaterial, 256);
+            return new Uint8Array(bits);
+        }
+
+        function hashesMatch(first, second) {
+            if (first.length !== second.length) return false;
+            let difference = 0;
+            for (let index = 0; index < first.length; index += 1) {
+                difference |= first[index] ^ second[index];
+            }
+            return difference === 0;
+        }
+
+        function readAccounts() {
+            const accounts = JSON.parse(localStorage.getItem(ACCOUNT_STORAGE_KEY) || "[]");
+            return Array.isArray(accounts) ? accounts : [];
+        }
+
+        function requireBrowserSupport() {
+            if (!globalThis.crypto?.subtle) {
+                throw new Error("Open the site through localhost or a secure website to create and verify accounts.");
+            }
+            if (!globalThis.localStorage) {
+                throw new Error("Browser storage is unavailable. Open the site through localhost to save your account.");
+            }
+        }
+
+        async function createAccount(form) {
+            requireBrowserSupport();
+            const formData = new FormData(form);
+            const name = formData.get("name").trim().replace(/\s+/g, " ");
+            const normalizedName = normalizeName(name);
+            if (!normalizedName) {
+                showAuthMessage("Enter your name to create an account.", true);
+                return;
+            }
+            const phone = normalizeRwandanPhone(formData.get("phone"));
+            if (!phone) {
+                showAuthMessage("Enter a valid Rwandan mobile number, such as 0788 123 456 or +250 788 123 456.", true);
+                return;
+            }
+            const locationAddress = formData.get("location").trim();
+            if (!locationAddress && !selectedMapLocation) {
+                showAuthMessage("Enter your address or choose a location on the map.", true);
+                return;
+            }
+
+            const accounts = readAccounts();
+            if (accounts.some((account) => account.normalizedName === normalizedName)) {
+                showAuthMessage("An account with that name already exists. Please sign in instead.", true);
+                return;
+            }
+
+            const salt = crypto.getRandomValues(new Uint8Array(16));
+            const passwordHash = await hashPassword(formData.get("password"), salt);
+            accounts.push({
+                name,
+                normalizedName,
+                phone,
+                location: {
+                    address: locationAddress,
+                    ...selectedMapLocation
+                },
+                salt: encodeBase64(salt),
+                passwordHash: encodeBase64(passwordHash)
+            });
+            localStorage.setItem(ACCOUNT_STORAGE_KEY, JSON.stringify(accounts));
+            form.reset();
+            showAuthMessage("Account created. Sign in with your name and password.");
+            authTabs[0].click();
+        }
+
+        async function signIn(form) {
+            requireBrowserSupport();
+            const formData = new FormData(form);
+            const normalizedName = normalizeName(formData.get("name"));
+            const account = readAccounts().find((item) => item.normalizedName === normalizedName);
+            if (!account) {
+                showAuthMessage("No account found with that name. Check the name or create an account.", true);
+                return;
+            }
+
+            const passwordHash = await hashPassword(formData.get("password"), decodeBase64(account.salt));
+            if (!hashesMatch(passwordHash, decodeBase64(account.passwordHash))) {
+                showAuthMessage("That password does not match this account. Please try again.", true);
+                return;
+            }
+
+            localStorage.setItem("docraw-customer-session", account.normalizedName);
+            window.location.href = "shop.html";
+        }
+
+        document.querySelectorAll("[data-auth-form]").forEach((form) => {
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+                authMessage.hidden = true;
+                try {
+                    if (form.dataset.authForm === "signup") {
+                        await createAccount(form);
+                    } else {
+                        await signIn(form);
+                    }
+                } catch (error) {
+                    showAuthMessage(error.message || "Unable to access account storage. Please try again.", true);
+                }
+            });
+        });
+    </script>
+    <script src="auth-transition.js"></script>
+</body>
+</html>

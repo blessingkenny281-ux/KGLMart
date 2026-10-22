@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon_io/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
+    <link rel="stylesheet" href="cart.css">
+    <title>KGLMart | Cart</title>
+</head>
+<body>
+    <!-- Navigation Bar -->
+
+        <nav class="navbar" >
+        <div class="logo"><a href="shop.html">KGLMart</a></div>
+        <ul class="nav-links">
+            <li><a href="shop.html">Home</a></li>
+            <li><a href="shop.html#products">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="profile.html" class="profile-link" aria-label="Customer profile"><img src="icons/user.png" alt="Profile"></a>
+            <a href="cart.html" class="btn cart-link"><img src="icons/shopping-cart.png" alt="Cart"><span data-cart-count hidden>0</span></a>
+        </div>
+    </nav>
+
+
+    <!-- Main Content -->
+    <main>
+        <section class="hero"> 
+            <h1>Your Cart</h1>
+            <p data-cart-view-description>Check your items and quantities before checkout.</p>
+        </section>
+        <div class="cart-subnav" role="tablist" aria-label="Cart sections">
+            <button class="cart-subnav__tab is-active" type="button" role="tab" id="cart-tab" aria-selected="true" aria-controls="cart-view" data-cart-tab="cart">Your cart</button>
+            <button class="cart-subnav__tab" type="button" role="tab" id="processing-tab" aria-selected="false" aria-controls="processing-view" data-cart-tab="processing">
+                Processing orders <span class="processing-order-count" data-processing-order-count>0</span>
+            </button>
+        </div>
+        <section id="cart-view" class="cart-tab-view" data-cart-view="cart" role="tabpanel" aria-labelledby="cart-tab">
+            <div class="era empty-cart" data-empty-cart>
+                <img src="./icons/empty-cart.png" alt="No products available">
+                <h2>Your cart is empty</h2>
+                <a class="checkout-button" href="shop.html">Browse products</a>
+            </div>
+            <section class="cart-layout" data-cart-layout hidden>
+                <div class="cart-items" data-cart-items></div>
+                <aside class="cart-summary">
+                    <h2>Order summary</h2>
+                    <div class="summary-line"><span>Subtotal</span><strong data-subtotal>0 RWF</strong></div>
+                    <p>Delivery is arranged after your order is confirmed.</p>
+                    <a class="checkout-button" href="checkout.html">Continue to checkout</a>
+                </aside>
+            </section>
+        </section>
+        <section id="processing-view" class="cart-tab-view processing-orders" data-cart-view="processing" role="tabpanel" aria-labelledby="processing-tab" hidden>
+            <p class="processing-orders__empty" data-processing-orders-empty>You have no orders being processed.</p>
+            <div class="processing-order-list" data-processing-orders-list></div>
+        </section>
+    </main>
+
+    <!--Footer-->
+<footer class="footer"> 
+    <hr>
+    <br>
+    <br>
+    <p>&copy; 2026 KGLMart. All rights reserved.</p>
+</footer>
+
+</body>
+<script src="app.js"></script>
+</html>

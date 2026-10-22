@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon_io/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
+    <title>KGLMart | Profile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="shop.html">KGLMart</a></div>
+        <ul class="nav-links">
+            <li><a href="shop.html">Home</a></li>
+            <li><a href="#"> Product</a></li>
+            <li><a href="about.html">About Us</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="profile.html" class="profile-link is-current" aria-label="Customer profile" aria-current="page"><img src="icons/user.png" alt="Profile"></a>
+            <a href="cart.html" class="btn cart-link"><img src="icons/shopping-cart.png" alt="Cart"></a>
+        </div>
+    </nav>
+
+    <main class="vendor-profile-page">
+        <section class="vendor-profile-heading">
+            <p class="eyebrow">Your KGLMart account</p>
+            <h1>Your profile</h1>
+        </section>
+        <div class="profile-subnav" data-profile-tabs role="tablist" aria-label="Profile sections" hidden>
+            <button class="profile-subnav__tab is-active" type="button" role="tab" id="profile-tab" aria-selected="true" aria-controls="profile-view" data-profile-tab="profile">Profile</button>
+            <button class="profile-subnav__tab" type="button" role="tab" id="history-tab" aria-selected="false" aria-controls="history-view" data-profile-tab="history">History</button>
+        </div>
+        <section class="vendor-profile-panel customer-profile-panel" id="profile-view" data-customer-profile data-profile-view="profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0" hidden>
+            <div class="vendor-profile-avatar"><img src="icons/user.png" alt=""></div>
+            <p class="vendor-profile-status"><span data-customer-profile-status>Signed in</span></p>
+            <dl>
+                <div><dt>Name</dt><dd data-customer-name></dd></div>
+                <div><dt>Phone number</dt><dd data-customer-phone></dd></div>
+                <div><dt>Email</dt><dd data-customer-location></dd></div>
+                <div data-customer-coordinates-row hidden><dt>Map coordinates</dt><dd data-customer-coordinates></dd></div>
+            </dl>
+            <a class="customer-map-link" data-customer-map-link target="_blank" rel="noopener" hidden>View location on map</a>
+            <button class="profile-logout" type="button" data-customer-logout >Log out</button>
+        </section>
+        <section class="profile-order-history" id="history-view" data-order-history data-profile-view="history" role="tabpanel" aria-labelledby="history-tab" tabindex="0" hidden>
+            <div class="order-history-heading">
+                <h2 id="order-history-title">Purchase history</h2>
+                <button class="clear-order-history" type="button" data-clear-order-history>Clear history</button>
+            </div>
+            <p class="order-history-empty" data-order-history-empty>You haven't placed any orders yet.</p>
+            <div class="profile-order-list" data-order-history-list></div>
+        </section>
+
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon_io/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
+    <link rel="stylesheet" href="checkout.css">
+    <link rel="stylesheet" href="cart.css">
+    <title>KGLMart | Checkout</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="shop.html">KGLMart</a></div>
+        <div class="nav-actions">
+            <a href="profile.html" class="profile-link" aria-label="Customer profile"><img src="icons/user.png" alt="Profile"></a>
+            <a href="cart.html" class="btn cart-link"><img src="icons/shopping-cart.png" alt="Cart"><span data-cart-count hidden>0</span></a>
+        </div>
+    </nav>
+    <main class="checkout-page">
+        <section class="checkout-heading">
+            <p class="eyebrow">Almost there</p>
+            <h1>Complete your order</h1>
+            <p>Enter your details and we will contact you to arrange delivery.</p>
+        </section>
+        <div class="checkout-layout">
+            <form class="checkout-form" data-checkout-form>
+                <h2>Contact and delivery details</h2>
+                <label>Full name<input name="name" type="text" autocomplete="name" required></label>
+                <label>Email address<input name="email" type="email" autocomplete="email" required></label>
+                <label>Phone number<input name="phone" type="tel" autocomplete="tel" required></label>
+                <label>Delivery address<textarea name="address" rows="4" required></textarea></label>
+                <label>Payment method<select name="payment" required><option value="">Choose a method</option><option>Cash on delivery</option><option>Mobile money</option></select></label>
+                <button class="checkout-button" type="submit">Place order</button>
+            </form>
+            <aside class="checkout-summary">
+                <h2>Your order</h2>
+                <div data-checkout-summary></div>
+            </aside>
+        </div>
+        <div class="empty-checkout" data-empty-checkout hidden>
+            <h2>Your cart is empty</h2>
+            <a class="checkout-button" href="shop.html">Browse products</a>
+        </div>
+        <p class="checkout-error" data-checkout-message role="alert" hidden></p>
+        <div class="order-success" data-order-success hidden>
+            <h2>Order received</h2>
+            <p>Thank you, <span data-order-customer></span>. Your order number is <strong data-order-number></strong>.</p>
+            <a class="checkout-button" href="track-order.html">Track your order</a>
+            <a class="checkout-button" href="shop.html">Continue shopping</a>
+        </div>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

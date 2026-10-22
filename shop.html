@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon_io/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="manifest" href="favicon_io/site.webmanifest">
+    <link rel="stylesheet" href="style.css">
+    <title>KGLMart | Home</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="shop.html">KGLMart</a></div>
+        <ul class="nav-links">
+            <li><a href="shop.html">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="profile.html" class="profile-link" aria-label="Customer profile"><img src="icons/user.png" alt="Profile"></a>
+            <a href="cart.html" class="btn cart-link"><img src="icons/shopping-cart.png" alt="Cart"><span data-cart-count hidden>0</span></a>
+        </div>
+    </nav>
+
+    <a class="cart-toast" data-cart-message href="cart.html" hidden>
+        <span data-cart-message-text>Product added to your cart.</span>
+        <strong>View cart &rarr;</strong>
+    </a>
+
+    <main>
+        <section class="add" id="products">
+            <h1>Our Products</h1>
+            <p>Browse products published by KGLMart vendors.</p>
+        </section>
+        <section class="shop-products" aria-label="Products">
+            <p class="vendor-shop-empty" data-vendor-shop-empty aria-live="polite" hidden>No vendor products have been published yet.</p>
+            <div class="vendor-products" data-vendor-products hidden aria-label="Products added by vendors"></div>
+        </section>
+    </main>
+    <footer class="footer">
+        <hr>
+        <p>&copy; 2026 KGLMart. All rights reserved.</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>
